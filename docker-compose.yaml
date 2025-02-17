@@ -1,0 +1,11 @@
+services:
+  server:
+    build: ./server
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+  game:
+    build: ./game
+    restart: unless-stopped
+    ports:
+      - 4173:4173

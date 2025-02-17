@@ -1,4 +1,4 @@
-import { BufferAttribute, BufferGeometry, Mesh, MeshBasicMaterial, NormalBufferAttributes } from "three";
+import { BufferAttribute, BufferGeometry, Mesh, MeshBasicMaterial } from "three";
 
 // Define vertices (x, y, z) for a simple triangle
 const vertices = new Float32Array([

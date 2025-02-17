@@ -2,7 +2,6 @@ import { Sprite, SpriteMaterial, TextureLoader } from "three";
 import { socket } from "../main";
 
 export class Player extends Sprite {
-    private readonly speed = 0.1;
     public playerId: string;
 
     constructor(id: string) {

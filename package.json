@@ -1,0 +1,12 @@
+{
+  "name": "vland",
+  "version": "1.0.0",
+  "repository": "git@github.com:RO03M/vland.git",
+  "author": "gabriel.romera <romera.gv.s@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "server",
+    "game"
+  ]
+}

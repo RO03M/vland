@@ -1,4 +1,4 @@
-import { Clock, PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { io } from "socket.io-client";
 import { Player } from "./entities/player";
 import { KeyboardControl } from "./keyboard-control";
@@ -60,13 +60,10 @@ socket.on("connect", () => {
 
 scene.add(player);
 
-const clock = new Clock();
-
 function animate() {
   if (!connected) {
     return;
   }
-  const deltaTime = clock.getDelta();
   const speed = 0.1;
   if (keyboardControl.isPressed("KeyW")) {
     player.moveY(speed)

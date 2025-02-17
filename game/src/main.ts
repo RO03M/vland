@@ -5,11 +5,17 @@ import { KeyboardControl } from "./keyboard-control";
 
 let connected = false;
 
+const username = prompt("Username");
+
 const keyboardControl = new KeyboardControl();
 
 const players: Map<string, Player> = new Map();
 
-export const socket = io("ws://localhost:8000");
+export const socket = io("ws://localhost:8000", {
+  query: {
+    username
+  }
+});
 
 const scene = new Scene();
 const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
@@ -34,7 +40,6 @@ socket.on("newplayer", (message) => {
 
 const player = new Player("");
 socket.on("walk", (message) => {
-  console.log(message);
   if (!("id" in message)) {
     return;
   }
@@ -56,6 +61,28 @@ socket.on("connect", () => {
 
   connected = true;
   player.playerId = socket.id;
+  socket.on("initial_players", (initialPlayers) => {
+    if (!Array.isArray(initialPlayers)) {
+      return;
+    }
+    for (const [_, initialPlayer] of initialPlayers) {
+      console.log(initialPlayer)
+      const player = new Player(initialPlayer.id);
+      players.set(initialPlayer.id, player);
+      scene.add(player);
+    }
+  });
+});
+
+socket.on("player_disconnected", (playerId) => {
+  console.log("Player disconnected", playerId);
+  const player = players.get(playerId);
+  if (player === undefined) {
+    return;
+  }
+
+  scene.remove(player);
+  players.delete(playerId);
 });
 
 scene.add(player);

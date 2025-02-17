@@ -4,6 +4,13 @@ import { Server } from "socket.io";
 
 export const PORT = 8000;
 
+interface Player {
+    id: string;
+    username: string;
+}
+
+const players: Map<string, Player> = new Map();
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -20,15 +27,31 @@ app.get("/", function(request, response) {
 });
 
 io.on("connection", function(socket) {
-    console.log("User connected", socket.id);
+    const username = socket.handshake.query.username;
+    if (username === undefined || typeof username !== "string") {
+        socket.disconnect();
+        return;
+    }
+
+    console.log(`${username} connected!`);
+
+    socket.emit("initial_players", [...players]);
+    players.set(socket.id, {
+        id: socket.id,
+        username
+    });
+
     socket.broadcast.emit("newplayer", { id: socket.id });
+
     socket.on("walk", function(message) {
-        console.log(`${socket.id} walked!`, message)
         socket.broadcast.emit("walk", message)
     });
 
     socket.on("disconnect", () => {
-        console.log("disconnected", socket.id)
+        const player = players.get(socket.id);
+        console.log(`${player?.username} ${socket.id} disconnected`);
+        players.delete(socket.id);
+        io.emit("player_disconnected", socket.id);
     });
 });
 

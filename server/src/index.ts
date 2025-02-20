@@ -41,6 +41,7 @@ io.on("connection", function(socket) {
         username
     });
 
+    console.log("aloha");
     socket.broadcast.emit("newplayer", { id: socket.id });
 
     socket.on("walk", function(message) {

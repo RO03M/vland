@@ -26,7 +26,7 @@ export class PlayerPlugin extends Plugin {
     }
 
     public moveY(value: number) {
-        this.sprite.position.y += value;
+        this.sprite.position.z -= value;
         this.emitMove();
     }
 
@@ -45,6 +45,16 @@ export class PlayerPlugin extends Plugin {
             } else if (Game.keyboardControl.isPressed("KeyA")) {
                 this.moveX(-speed);
             }
+        });
+
+        game.addSystem(SystemMode.UPDATE, () => {
+            game.camera.position.x = this.sprite.position.x;
+            game.camera.position.y = this.sprite.position.y + 5;
+            game.camera.position.z = this.sprite.position.z + 10;
+        });
+
+        game.addSystem(SystemMode.UPDATE, () => {
+            this.sprite.lookAt(game.camera.position);
         });
     }
 }

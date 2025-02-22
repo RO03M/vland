@@ -1,6 +1,5 @@
-import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import { OrthographicCamera, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { KeyboardControl } from "./keyboard-control";
-import { io } from "socket.io-client";
 import { Entity } from "./entity";
 import { Plugin } from "./plugin";
 
@@ -8,6 +7,9 @@ export enum SystemMode {
     START,
     UPDATE
 }
+
+const viewSize = 15; // Adjust based on your game's scale
+const aspectRatio = window.innerWidth / window.innerHeight;
 
 export class Game {
     private connected = false;
@@ -19,7 +21,15 @@ export class Game {
     public entities: Entity[] = [];
     public static readonly keyboardControl = new KeyboardControl();
     public scene = new Scene();
-    public camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
+    public camera = new PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 100);
+    // public camera = new OrthographicCamera(
+    //     (-aspectRatio * viewSize) / 2, // left
+    //     (aspectRatio * viewSize) / 2,  // right
+    //     viewSize / 2,  // top
+    //     -viewSize / 2, // bottom
+    //     0.1, // near
+    //     100 // far
+    //   );
     public renderer = new WebGLRenderer();
 
     constructor() {

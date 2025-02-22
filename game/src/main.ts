@@ -2,6 +2,7 @@ import { Game, SystemMode } from "./core/game";
 import { PlayerPlugin } from "./plugins/player-plugin";
 import { io } from "socket.io-client";
 import { MultiplayerHandlerPlugin } from "./plugins/multiplayer-handler-plugin";
+import { TerrainPlugin } from "./plugins/terrain/terrain-plugin";
 
 export const socket = io("ws://localhost:8000", {
     query: {
@@ -16,6 +17,7 @@ game
         console.log("Are you winning don?");
     })
     .addPlugin(new MultiplayerHandlerPlugin())
+    .addPlugin(new TerrainPlugin())
     .run();
 
 socket.on("connect", () => {

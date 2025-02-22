@@ -95,7 +95,7 @@ export class Block {
                 faceIndices[i][5]
             );
         }
-        console.log(indices);
+        // console.log(indices);
         geometry.setAttribute("position", new BufferAttribute(vertices, 3));
         geometry.setIndex(new BufferAttribute(new Uint8Array(indices), 1));
 

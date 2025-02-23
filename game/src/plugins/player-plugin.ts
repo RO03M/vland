@@ -1,43 +1,50 @@
-import { Sprite, SpriteMaterial, TextureLoader } from "three";
+import { PointLight, Sprite, SpriteMaterial, TextureLoader } from "three";
 import { Game, SystemMode } from "../core/game";
 import { Plugin } from "../core/plugin";
 import { socket } from "../main";
+import { degreesToRadians } from "../core/math-utils";
 
 export class PlayerPlugin extends Plugin {
     public sprite: Sprite;
     public playerId: string;
+    public light: PointLight;
 
     constructor(id: string) {
         super();
         const map = new TextureLoader().load("image.png");
         const material = new SpriteMaterial({ map });
         this.sprite = new Sprite(material);
+        this.light = new PointLight(0xffffff, 10, 10000);
 
         this.playerId = id;
     }
 
     public emitMove() {
-        socket.emit("walk", { id: this.playerId, x: this.sprite.position.x, y: this.sprite.position.y });
+        socket.emit("walk", { id: this.playerId, x: this.sprite.position.x, y: this.sprite.position.y, z: this.sprite.position.z });
     }
 
     public moveX(value: number) {
         this.sprite.position.x += value;
+        this.light.position.x += value;
         this.emitMove();
     }
 
-    public moveY(value: number) {
+    public moveZ(value: number) {
         this.sprite.position.z -= value;
+        this.light.position.z -= value;
         this.emitMove();
     }
 
     build(game: Game): void {
         game.scene.add(this.sprite);
+        game.scene.add(this.light);
+        game.camera.rotateX(degreesToRadians(-45));
         const speed = 0.1;
         game.addSystem(SystemMode.UPDATE, () => {
             if (Game.keyboardControl.isPressed("KeyW")) {
-                this.moveY(speed)
+                this.moveZ(speed)
             } else if (Game.keyboardControl.isPressed("KeyS")) {
-                this.moveY(-speed);
+                this.moveZ(-speed);
             }
     
             if (Game.keyboardControl.isPressed("KeyD")) {
@@ -49,8 +56,8 @@ export class PlayerPlugin extends Plugin {
 
         game.addSystem(SystemMode.UPDATE, () => {
             game.camera.position.x = this.sprite.position.x;
-            game.camera.position.y = this.sprite.position.y + 5;
-            game.camera.position.z = this.sprite.position.z + 10;
+            game.camera.position.y = this.sprite.position.y + 3;
+            game.camera.position.z = this.sprite.position.z + 3;
         });
 
         game.addSystem(SystemMode.UPDATE, () => {

@@ -1,5 +1,6 @@
 import express from "express";
 import http from "node:http"
+import Noise from "noisejs";
 import { Server } from "socket.io";
 
 export const PORT = 8000;
@@ -24,6 +25,16 @@ app.get("/", function(request, response) {
     response.json({
         hjola: "q tal"
     })
+});
+
+app.get("/noise", function(request, response) {
+    const noise = new Noise(Math.random());
+    console.log(noise);
+    response.send([
+        noise.simplex2(0, 0),
+        noise.simplex2(1, 0),
+        noise.simplex2(0, 123123),
+    ]);
 });
 
 io.on("connection", function(socket) {

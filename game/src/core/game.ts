@@ -8,14 +8,16 @@ export enum SystemMode {
     UPDATE
 }
 
+type SystemFunction = (game: Game) => void;
+
 const viewSize = 15; // Adjust based on your game's scale
 const aspectRatio = window.innerWidth / window.innerHeight;
 
 export class Game {
     private connected = false;
 
-    public updateSystems: VoidFunction[] = [];
-    public startSystems: VoidFunction[] = [];
+    public updateSystems: SystemFunction[] = [];
+    public startSystems: SystemFunction[] = [];
     public plugins: Plugin[] = [];
 
     public entities: Entity[] = [];
@@ -29,7 +31,7 @@ export class Game {
     //     -viewSize / 2, // bottom
     //     0.1, // near
     //     100 // far
-    //   );
+    // );
     public renderer = new WebGLRenderer();
 
     constructor() {
@@ -43,13 +45,16 @@ export class Game {
     }
 
     public start() {
-        this.camera.position.z = 10;
-        for (const entity of this.entities) {
-            entity.start({
-                camera: this.camera,
-                keyboardControl: Game.keyboardControl,
-                scene: this.scene
-            });
+        // this.camera.position.z = 10;
+        // for (const entity of this.entities) {
+        //     entity.start({
+        //         camera: this.camera,
+        //         keyboardControl: Game.keyboardControl,
+        //         scene: this.scene
+        //     });
+        // }
+        for (const system of this.startSystems) {
+            system(this);
         }
     }
 
@@ -62,12 +67,12 @@ export class Game {
         //     });
         // }
         for (const system of this.updateSystems) {
-            system();
+            system(this);
         }
         this.renderer.render(this.scene, this.camera);
     }
 
-    public addSystem(systemMode: SystemMode, system: VoidFunction) {
+    public addSystem(systemMode: SystemMode, system: SystemFunction) {
         switch (systemMode) {
             case SystemMode.START:
                 this.startSystems.push(system);

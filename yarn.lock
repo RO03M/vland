@@ -341,6 +341,11 @@
   dependencies:
     undici-types "~6.20.0"
 
+"@types/noisejs@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/noisejs/-/noisejs-2.1.0.tgz#597bdd7e1bae5994a7f6709de3d066de91ca20d7"
+  integrity sha512-wr00fdlH+qRK0R5R4JeNOuCyLKS4EB2pYzed2iubdwSHL3CZ1RjR5j3lmhQjZB7vZqtL5FxCM/dUZsR9kkGk5A==
+
 "@types/qs@*":
   version "6.9.18"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.18.tgz#877292caa91f7c1b213032b34626505b746624c2"
@@ -992,6 +997,11 @@ nodemon@^3.1.9:
     supports-color "^5.5.0"
     touch "^3.1.0"
     undefsafe "^2.0.5"
+
+noisejs@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/noisejs/-/noisejs-2.1.0.tgz#84b4c4cd04ff43367034f65253e213e0d9fe1aff"
+  integrity sha512-sw39KaUS2YBta6apZ0/H+nnCsUyxT/ZRxgv/HnDxx6pWO2e2nUmWgLhpOaQdlxxkFepIpxDrlXy3fHVx0S3SLg==
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"

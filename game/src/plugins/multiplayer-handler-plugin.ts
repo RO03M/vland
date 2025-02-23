@@ -37,6 +37,7 @@ export class MultiplayerHandlerPlugin extends Plugin {
 
           otherPlayer.position.x = message.x;
           otherPlayer.position.y = message.y;
+          otherPlayer.position.z = message.z;
         });
 
         socket.on("player_disconnected", (playerId) => {

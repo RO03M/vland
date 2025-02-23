@@ -1,19 +1,24 @@
+import { AmbientLight } from "three";
 import { Game } from "../../core/game";
 import { degreesToRadians } from "../../core/math-utils";
 import { Plugin } from "../../core/plugin";
 import { Block } from "../../world/block";
+import { Chunk } from "./chunk";
 
 export class TerrainPlugin extends Plugin {
     build(game: Game): void {
-        game.camera.rotateX(degreesToRadians(-45));
-        game.camera.position.setY(5)
-        for (let x = 0; x < 3; x++) {
-            for (let y = 0; y < 3; y++) {
-                for (let z = 0; z < 3; z++) {
-                    const block = new Block({ x, y, z, top: true, bottom: true, right: true, left: true, back: true, front: true });
-                    game.scene.add(block.getMesh());
-                }
-            }
-        }
+        game.scene.add(new AmbientLight());
+        game
+            .addPlugin(new Chunk());
+        // const ambientLight = new AmbientLight(0xff0000, 1);
+        // game.scene.add(ambientLight);
+        // for (let x = 0; x < 1; x++) {
+        //     for (let y = 0; y < 1; y++) {
+        //         for (let z = 0; z < 1; z++) {
+        //             const block = new Block({ x, y, z, top: true, bottom: true, right: true, left: true, back: true, front: true });
+        //             game.scene.add(block.getMesh());
+        //         }
+        //     }
+        // }
     }
 }

@@ -29,8 +29,8 @@ export class Game {
     //     (aspectRatio * viewSize) / 2,  // right
     //     viewSize / 2,  // top
     //     -viewSize / 2, // bottom
-    //     0.1, // near
-    //     100 // far
+    //     1, // near
+    //     30 // far
     // );
     public renderer = new WebGLRenderer();
 

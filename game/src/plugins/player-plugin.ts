@@ -29,6 +29,12 @@ export class PlayerPlugin extends Plugin {
         this.emitMove();
     }
 
+    public moveY(value: number) {
+        this.sprite.position.y += value;
+        this.light.position.y += value;
+        this.emitMove();
+    }
+
     public moveZ(value: number) {
         this.sprite.position.z -= value;
         this.light.position.z -= value;
@@ -51,6 +57,12 @@ export class PlayerPlugin extends Plugin {
                 this.moveX(speed);
             } else if (Game.keyboardControl.isPressed("KeyA")) {
                 this.moveX(-speed);
+            }
+
+            if (Game.keyboardControl.isPressed("Space")) {
+                this.moveY(speed);
+            } else if (Game.keyboardControl.isPressed("ShiftLeft")) {
+                this.moveY(-speed);
             }
         });
 

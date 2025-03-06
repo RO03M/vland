@@ -44,7 +44,7 @@ export class PlayerPlugin extends Plugin {
     build(game: Game): void {
         game.scene.add(this.sprite);
         game.scene.add(this.light);
-        game.camera.rotateX(degreesToRadians(-45));
+        // game.camera.rotateX(degreesToRadians(-45));
         const speed = 0.1;
         game.addSystem(SystemMode.UPDATE, () => {
             if (Game.keyboardControl.isPressed("KeyW")) {
@@ -68,8 +68,8 @@ export class PlayerPlugin extends Plugin {
 
         game.addSystem(SystemMode.UPDATE, () => {
             game.camera.position.x = this.sprite.position.x;
-            game.camera.position.y = this.sprite.position.y + 3;
-            game.camera.position.z = this.sprite.position.z + 3;
+            game.camera.position.y = this.sprite.position.y;
+            game.camera.position.z = this.sprite.position.z + 10;
         });
 
         game.addSystem(SystemMode.UPDATE, () => {

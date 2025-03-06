@@ -2,14 +2,14 @@ import { Vector3 } from "three";
 
 export const voxelData = {
     vertices: [
-        new Vector3(0, 0, 0),
-        new Vector3(1, 0, 0),
-        new Vector3(1, 1, 0),
-        new Vector3(0, 1, 0),
-        new Vector3(0, 0, 1),
-        new Vector3(1, 0, 1),
-        new Vector3(1, 1, 1),
-        new Vector3(0, 1, 1)
+        new Vector3(0, 0, 0), //0
+        new Vector3(1, 0, 0), //1
+        new Vector3(1, 1, 0), //2
+        new Vector3(0, 1, 0), //3 
+        new Vector3(0, 0, 1), //4
+        new Vector3(1, 0, 1), //5
+        new Vector3(1, 1, 1), //6
+        new Vector3(0, 1, 1) //7
     ],
     faceChecks: [
         new Vector3(0, 0, 1),

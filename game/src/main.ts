@@ -3,8 +3,6 @@ import { PlayerPlugin } from "./plugins/player-plugin";
 import { io } from "socket.io-client";
 import { MultiplayerHandlerPlugin } from "./plugins/multiplayer-handler-plugin";
 import { TerrainPlugin } from "./plugins/terrain/terrain-plugin";
-import { AmbientLight, BoxGeometry, CubeTextureLoader, Mesh, MeshBasicMaterial, MeshPhongMaterial, PointLight, TextureLoader } from "three";
-import { Chunk } from "./plugins/terrain/chunk";
 
 export const socket = io("ws://localhost:8000", {
     query: {
@@ -17,29 +15,6 @@ const game = new Game();
 game
     .addPlugin(new MultiplayerHandlerPlugin())
     .addPlugin(new TerrainPlugin())
-    // .addSystem(SystemMode.START, (game) => {
-    //     const ambientLight = new AmbientLight(0xff0000, 1);
-    //     game.scene.add(ambientLight);
-    //     // const light = new PointLight( 0xff0000, 1, 100 );
-    //     // light.position.set(0, 0, 0);
-    //     // game.scene.add( light );
-    //     const loader = new TextureLoader();
-    //     const materials = [
-    //         new MeshBasicMaterial({ wireframe: false, map: loader.load("uv.jpeg") }),  // Front
-    //         new MeshBasicMaterial({ wireframe: false, map: loader.load("uv.jpeg") }),   // Back
-    //         new MeshBasicMaterial({ wireframe: false, map: loader.load("uv.jpeg") }),    // Top
-    //         new MeshBasicMaterial({ wireframe: false, map: loader.load("uv.jpeg") }), // Bottom
-    //         new MeshBasicMaterial({ wireframe: false, map: loader.load("uv.jpeg") }),   // Left
-    //         new MeshBasicMaterial({ wireframe: false, map: loader.load("uv.jpeg") })   // Right
-    //     ];
-
-    //     // Create cube geometry and apply materials
-    //     const geometry = new BoxGeometry(2, 2, 2);
-    //     const cube = new Mesh(geometry, materials);
-    //     cube.position.set(5, 0, 0);
-    //     console.log(geometry);
-    //     game.scene.add(cube);
-    // })
     .run();
 
 socket.on("connect", () => {

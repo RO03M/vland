@@ -8,6 +8,7 @@ export class PlayerPlugin extends Plugin {
     public sprite: Sprite;
     public playerId: string;
     public light: PointLight;
+    public speed = 0.1;
 
     constructor(id: string) {
         super();
@@ -41,30 +42,25 @@ export class PlayerPlugin extends Plugin {
         this.emitMove();
     }
 
+    public handleMovement() {
+        if (Game.keyboardControl.isPressed("KeyW")) {
+            this.moveY(this.speed)
+        } else if (Game.keyboardControl.isPressed("KeyS")) {
+            this.moveY(-this.speed);
+        }
+
+        if (Game.keyboardControl.isPressed("KeyD")) {
+            this.moveX(this.speed);
+        } else if (Game.keyboardControl.isPressed("KeyA")) {
+            this.moveX(-this.speed);
+        }
+    }
+
     build(game: Game): void {
         game.scene.add(this.sprite);
         game.scene.add(this.light);
         // game.camera.rotateX(degreesToRadians(-45));
-        const speed = 0.1;
-        game.addSystem(SystemMode.UPDATE, () => {
-            if (Game.keyboardControl.isPressed("KeyW")) {
-                this.moveZ(speed)
-            } else if (Game.keyboardControl.isPressed("KeyS")) {
-                this.moveZ(-speed);
-            }
-    
-            if (Game.keyboardControl.isPressed("KeyD")) {
-                this.moveX(speed);
-            } else if (Game.keyboardControl.isPressed("KeyA")) {
-                this.moveX(-speed);
-            }
-
-            if (Game.keyboardControl.isPressed("Space")) {
-                this.moveY(speed);
-            } else if (Game.keyboardControl.isPressed("ShiftLeft")) {
-                this.moveY(-speed);
-            }
-        });
+        game.addSystem(SystemMode.UPDATE, () => this.handleMovement());
 
         game.addSystem(SystemMode.UPDATE, () => {
             game.camera.position.x = this.sprite.position.x;

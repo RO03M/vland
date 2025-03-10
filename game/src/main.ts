@@ -3,23 +3,26 @@ import { PlayerPlugin } from "./plugins/player-plugin";
 import { io } from "socket.io-client";
 import { MultiplayerHandlerPlugin } from "./plugins/multiplayer-handler-plugin";
 import { TerrainPlugin } from "./plugins/terrain/terrain-plugin";
+import { SocketClient } from "./socket-client/socket-client";
 
-export const socket = io("ws://localhost:8000", {
-    query: {
-        username: "username"
-    }
-});
+const client = new SocketClient("ws://localhost:8000/ws");
 
-const game = new Game();
+// export const socket = io("ws://localhost:8000", {
+//     query: {
+//         username: "username"
+//     }
+// });
 
-game
-    .addPlugin(new MultiplayerHandlerPlugin())
-    .addPlugin(new TerrainPlugin())
-    .run();
+// const game = new Game();
 
-socket.on("connect", () => {
-    game.addPlugin(new PlayerPlugin(socket.id!));
-});
+// game
+//     .addPlugin(new MultiplayerHandlerPlugin())
+//     .addPlugin(new TerrainPlugin())
+//     .run();
+
+// socket.on("connect", () => {
+//     game.addPlugin(new PlayerPlugin(socket.id!));
+// });
 
 // game
 //     .addSystem(SystemMode.Update, method)

@@ -32,7 +32,7 @@ func handleWS(w http.ResponseWriter, r *http.Request, server *Server) {
 		return
 	}
 
-	socket := NewSocket(conn)
+	socket := NewSocket(server, conn)
 	server.sockets[generateRandomKey()] = socket
 	fmt.Println(server.onConnect)
 	server.onConnect(socket)
@@ -77,6 +77,10 @@ func NewWebSocketServer() *Server {
 func (server *Server) OnConnect(callback SocketCallback) {
 	// server.connections[randomKey] =
 	server.onConnect = callback
+}
+
+func (server Server) Emit() {
+
 }
 
 func (server *Server) Serve() {

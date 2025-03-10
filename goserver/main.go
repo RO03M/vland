@@ -12,13 +12,17 @@ func main() {
 		socket.Emit("welcome", "Welcome")
 		socket.On("fofo", func(message interface{}) {
 			fmt.Printf("%s", message)
+			socket.Broadcast().Emit("teste", message)
+		})
+		socket.On("ping", func(message interface{}) {
+			socket.Emit("pong", "pong")
 		})
 	})
 	server.Serve()
 	// http.HandleFunc("/ws", handleWS)
 
 	fmt.Println("WebSocket server started on ws://localhost:8080/ws")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		fmt.Println("Server error:", err)
 	}

@@ -7,6 +7,10 @@ import { SocketClient } from "./socket-client/socket-client";
 
 const client = new SocketClient("ws://localhost:8000/ws");
 
+
+client.on("pong", (data) => {
+    console.log("listener event", data);
+})
 // export const socket = io("ws://localhost:8000", {
 //     query: {
 //         username: "username"

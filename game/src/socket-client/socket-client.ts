@@ -1,6 +1,6 @@
 import { safe } from "../utils/safe";
 
-type SocketListener = (...data: unknown[]) => void;
+type SocketListener = (...data: any[]) => void;
 
 export class SocketClient {
     private webSocket: WebSocket;
@@ -9,8 +9,13 @@ export class SocketClient {
 
     constructor(url: string) {
         this.webSocket = new WebSocket(url);
-        this.webSocket.onopen = () => {
-            this.emit("ping", "ping");
+        this.webSocket.onopen = (event) => {
+            // console.log(event);
+            // const connectListeners = this.events.get("connect") ?? [];
+            // for (const listener of connectListeners) {
+            //     listener();
+            // }
+            // this.emit("ping", "ping");
         }
         this.webSocket.onmessage = (event) => {
             const parsed = safe(() => JSON.parse(event.data));

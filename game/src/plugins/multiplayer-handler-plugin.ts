@@ -55,8 +55,7 @@ export class MultiplayerHandlerPlugin extends Plugin {
             if (!Array.isArray(initialPlayers)) {
                 return;
             }
-            for (const [_, initialPlayer] of initialPlayers) {
-                console.log(initialPlayer)
+            for (const initialPlayer of initialPlayers) {
                 const map = new TextureLoader().load("image.png");
                 const material = new SpriteMaterial({ map });
                 const player = new Sprite(material);

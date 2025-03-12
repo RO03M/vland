@@ -5,28 +5,31 @@ import { MultiplayerHandlerPlugin } from "./plugins/multiplayer-handler-plugin";
 import { TerrainPlugin } from "./plugins/terrain/terrain-plugin";
 import { SocketClient } from "./socket-client/socket-client";
 
-const client = new SocketClient("ws://localhost:8000/ws");
+export const socket = new SocketClient("ws://localhost:8000/ws?username=romera");
 
-
-client.on("pong", (data) => {
+socket.on("pong", (data) => {
     console.log("listener event", data);
-})
+});
+
+socket.on("initial_players", (data) => {
+    console.log(data);
+});
 // export const socket = io("ws://localhost:8000", {
 //     query: {
 //         username: "username"
 //     }
 // });
 
-// const game = new Game();
+const game = new Game();
 
-// game
-//     .addPlugin(new MultiplayerHandlerPlugin())
-//     .addPlugin(new TerrainPlugin())
-//     .run();
+game
+    .addPlugin(new MultiplayerHandlerPlugin())
+    .addPlugin(new TerrainPlugin())
+    .run();
 
-// socket.on("connect", () => {
-//     game.addPlugin(new PlayerPlugin(socket.id!));
-// });
+socket.on("connect", (socketId) => {
+    game.addPlugin(new PlayerPlugin(socketId));
+});
 
 // game
 //     .addSystem(SystemMode.Update, method)

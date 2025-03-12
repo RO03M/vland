@@ -33,17 +33,18 @@ func handleWS(w http.ResponseWriter, r *http.Request, server *Server) {
 	}
 
 	socket := NewSocket(server, conn)
-	server.sockets[generateRandomKey()] = socket
-	fmt.Println(server.onConnect)
-	server.onConnect(socket)
-	defer conn.Close()
+	socket.Query = r.URL.Query()
+	server.sockets[socket.Id] = socket
 
-	fmt.Println("Client connected", r.URL.Query().Get("teste"))
+	server.onConnect(socket)
+	socket.Emit("connect", socket.Id)
+	defer conn.Close()
 
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {
 			fmt.Println("Read error:", err)
+			socket.Disconnect()
 			break
 		}
 
@@ -52,7 +53,7 @@ func handleWS(w http.ResponseWriter, r *http.Request, server *Server) {
 
 		if err != nil {
 			fmt.Println(err)
-			socket.Emit("disconnect", err.Error())
+			socket.Disconnect()
 			break
 		}
 
@@ -64,8 +65,6 @@ func handleWS(w http.ResponseWriter, r *http.Request, server *Server) {
 
 		listener(response.Data)
 	}
-
-	fmt.Println("Client disconnected")
 }
 
 func NewWebSocketServer() *Server {
@@ -79,8 +78,10 @@ func (server *Server) OnConnect(callback SocketCallback) {
 	server.onConnect = callback
 }
 
-func (server Server) Emit() {
-
+func (server Server) Emit(event string, args ...interface{}) {
+	for _, socket := range server.sockets {
+		socket.Emit(event, args...)
+	}
 }
 
 func (server *Server) Serve() {

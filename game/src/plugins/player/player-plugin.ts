@@ -1,8 +1,8 @@
 import { PointLight, Sprite, SpriteMaterial, TextureLoader } from "three";
-import { Game, SystemMode } from "../core/game";
-import { Plugin } from "../core/plugin";
-import { socket } from "../main";
-import { degreesToRadians } from "../core/math-utils";
+import { Game, SystemMode } from "../../core/game";
+import { Plugin } from "../../core/plugin";
+import { socket } from "../../main";
+import { degreesToRadians } from "../../core/math-utils";
 
 export class PlayerPlugin extends Plugin {
     public sprite: Sprite;
@@ -57,6 +57,7 @@ export class PlayerPlugin extends Plugin {
     }
 
     build(game: Game): void {
+        this.sprite.name = "main-player";
         game.scene.add(this.sprite);
         game.scene.add(this.light);
         // game.camera.rotateX(degreesToRadians(-45));

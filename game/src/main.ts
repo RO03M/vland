@@ -1,5 +1,5 @@
 import { Game, SystemMode } from "./core/game";
-import { PlayerPlugin } from "./plugins/player-plugin";
+import { PlayerPlugin } from "./plugins/player/player-plugin";
 import { io } from "socket.io-client";
 import { MultiplayerHandlerPlugin } from "./plugins/multiplayer-handler-plugin";
 import { TerrainPlugin } from "./plugins/terrain/terrain-plugin";

@@ -2,6 +2,7 @@ import { OrthographicCamera, PerspectiveCamera, Scene, WebGLRenderer } from "thr
 import { KeyboardControl } from "./keyboard-control";
 import { Entity } from "./entity";
 import { Plugin } from "./plugin";
+import { MouseController } from "./mouse-controller";
 
 export enum SystemMode {
     START,
@@ -22,6 +23,7 @@ export class Game {
 
     public entities: Entity[] = [];
     public static readonly keyboardControl = new KeyboardControl();
+    public static readonly mouseController = new MouseController();
     public scene = new Scene();
     public camera = new PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 100);
     // public camera = new OrthographicCamera(

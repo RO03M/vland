@@ -2,13 +2,14 @@ import { PointLight, Sprite, SpriteMaterial, TextureLoader } from "three";
 import { Game, SystemMode } from "../../core/game";
 import { Plugin } from "../../core/plugin";
 import { socket } from "../../main";
-import { degreesToRadians } from "../../core/math-utils";
+import { clamp, degreesToRadians } from "../../core/math-utils";
 
 export class PlayerPlugin extends Plugin {
     public sprite: Sprite;
     public playerId: string;
     public light: PointLight;
     public speed = 0.1;
+    public zoom = 1;
 
     constructor(id: string) {
         super();
@@ -66,7 +67,10 @@ export class PlayerPlugin extends Plugin {
         game.addSystem(SystemMode.UPDATE, () => {
             game.camera.position.x = this.sprite.position.x;
             game.camera.position.y = this.sprite.position.y;
-            game.camera.position.z = this.sprite.position.z + 10;
+            game.camera.position.z = this.sprite.position.z + this.zoom;
+
+            console.log(this.zoom + Game.mouseController.wheel);
+            this.zoom = clamp(this.zoom + Game.mouseController.wheel, 10, Infinity);
         });
 
         game.addSystem(SystemMode.UPDATE, () => {

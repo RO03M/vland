@@ -63,11 +63,15 @@ func main() {
 				return
 			}
 
-			var x, y = coords["x"].(float64), coords["y"].(float64)
+			var chunkX, chunkY = coords["x"].(float64), coords["y"].(float64)
 
-			var chunkMap = terrain.GenerateChunkMap(int(x), int(y))
+			var chunkMap = terrain.GenerateChunkMap(int(chunkX), int(chunkY))
 
-			socket.Emit("chunk_map", chunkMap)
+			socket.Emit("chunk_map", map[string]interface{}{
+				"map":    chunkMap,
+				"chunkX": chunkX,
+				"chunkY": chunkY,
+			})
 		})
 
 		socket.On("disconnect", func(message interface{}) {

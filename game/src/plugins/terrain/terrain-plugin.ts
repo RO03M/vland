@@ -34,26 +34,33 @@ export class TerrainPlugin extends Plugin {
             const currentChunk = this.chunks.get(chunkPosition.x)?.get(chunkPosition.y);
             // const currentChunk = this.chunks[chunkPosition.x]?.[chunkPosition.y];
             if (currentChunk === undefined) {
-                this.requestChunks(chunkPosition, game);
+                for (let xOff = -3; xOff < 3; xOff++) {
+                    for (let yOff = -3; yOff < 3; yOff++) {
+                        this.requestChunks(new Vector3(chunkPosition.x + xOff, chunkPosition.y + yOff), game);
+                    }
+                }
             }
         });
         
         socket.on("chunk_map", (message) => {
-            const position = this.worldPositionToChunkPosition(this.playerWorldPosition!);// deve vir direto do servidor
-            const chunk = new Chunk(position, message);
+            if (!("map" in message)) {
+                return;
+            }
+            const chunkPos = new Vector3(message.chunkX, message.chunkY, 0);// deve vir direto do servidor
+            const chunk = new Chunk(chunkPos, message.map);
 
             // if (!this.chunks.has(position.x)) {
             // }
             
             
             
-            const foo = this.chunks.get(position.x);
+            const foo = this.chunks.get(chunkPos.x);
             
             if (foo === undefined) {
-                this.chunks.set(position.x, new Map());
+                this.chunks.set(chunkPos.x, new Map());
             }
 
-            foo?.set(position.y, chunk);
+            foo?.set(chunkPos.y, chunk);
             game.scene.add(chunk.mesh!);
         });
     }
@@ -62,7 +69,8 @@ export class TerrainPlugin extends Plugin {
         if (this.playerWorldPosition === undefined) {
             return
         }
-        socket.emit("generate_chunk", this.worldPositionToChunkPosition(this.playerWorldPosition));
+        // socket.emit("generate_chunk", this.worldPositionToChunkPosition(this.playerWorldPosition));
+        socket.emit("generate_chunk", position);
 
         // const chunk = new Chunk(position, this.generateChunkMap());
 

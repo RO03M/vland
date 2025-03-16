@@ -16,9 +16,11 @@ func GenerateChunkMap(chunkX int, chunkY int) ChunkMap {
 	var simplex = opensimplex.NewOpenSimplex2(1)
 	for x := range CHUNK_SIZE {
 		for y := range CHUNK_SIZE {
-			var noise = simplex.Noise2D(float64(chunkX*CHUNK_SIZE+x), float64(chunkY*CHUNK_SIZE+y))
+			var xCoord = float64(x)/float64(CHUNK_SIZE) + float64(chunkX)
+			var yCoord = float64(y)/float64(CHUNK_SIZE) + float64(chunkY)
+			var noise = simplex.Noise2D(xCoord, yCoord)
 
-			if noise >= -0.5 {
+			if noise >= 0 {
 				chunkMap[x][y] = BlockType(DIRT)
 			} else {
 				chunkMap[x][y] = BlockType(GRASS)
